@@ -70,6 +70,7 @@ NSUInteger random_no(NSUInteger n)
     CALayer * _backgroundLayer;
     AVPlayerLayer * _AVPlayerLayer;
     CALayer * _metadataLayer;
+    CALayer * _logoLayer;
     
     // Assets iteration
     
@@ -913,6 +914,34 @@ NSUInteger random_no(NSUInteger n)
         }
         
         [_AVPlayerLayer.player play];
+        
+        if (_logoLayer==nil)
+        {
+            CALayer * imageLayer;
+            
+            _logoLayer=[CALayer layer];
+            
+            _logoLayer.frame=_backgroundLayer.bounds;
+            
+            
+            [_backgroundLayer insertSublayer:_logoLayer above:_AVPlayerLayer];
+            
+            _logoLayer.opacity=1.0f;
+            
+            imageLayer = [CALayer layer];
+            
+            NSURL *imageUrl = [[NSURL alloc] initFileURLWithPath:@"/Users/Simon/Movies/Hooli screensaver/hoolilogo.png"];
+            NSImage *image = [[NSImage alloc] initWithContentsOfURL:imageUrl];
+            imageLayer.contents = image;
+            imageLayer.backgroundColor=[NSColor clearColor].CGColor;
+            [imageLayer setOpaque:NO];
+            
+            imageLayer.contentsGravity=kCAGravityCenter;
+            imageLayer.frame = _backgroundLayer.bounds;
+            imageLayer.contentsScale = 2.0;
+            
+            [_logoLayer addSublayer:imageLayer];
+        }
         
         if (_preview==NO && _showMetadata==YES)
         {
